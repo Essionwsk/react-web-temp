@@ -1,0 +1,116 @@
+
+//@themeColor_00:#33495E;
+@themeColor_00:#F1F8FE;//#1C294B;
+
+.pop-mask{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    z-index: 99999;
+    float: left;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    animation: maskMoveInto 0.5s forwards;
+    .pop-dialog{
+        font-size: 14px;
+        background-color: #FFF;
+        margin: 0 auto;
+        top: 0;
+        position: relative;
+        border-radius: 3px;
+        overflow:auto;
+        animation: dialogMoveInto 0.3s forwards;
+        .pop-dialog-head{
+            display: flex;
+            align-items: center;
+            font-weight:650;
+            height: 40px;
+            background-color: @themeColor_00;
+            padding: 0 10px;
+            color: #000;
+            justify-content: space-between;
+            i.fa-times{
+                cursor: pointer;
+            }
+        }
+        .pop-dialog-body{
+            position: relative;
+            background-color: #FFF;
+            min-height: 100px;
+            display: inline-block;
+            width: 100%;
+            .alert-msg{
+                text-align: center;
+                padding: 30px;
+                width: 100%;
+                word-break: break-all;
+                max-height: 300px;
+                overflow: auto;
+            }
+        }
+        .pop-dialog-foot{
+            border-top: 1px solid #DDD;
+            position: relative;
+            display: flex;
+            //background-color: #F1F1F1;
+            height: 60px;
+            justify-content:center;//flex-end
+            align-items: center;
+            padding: 8px 0 8px 12px;
+            button.btn{
+                min-width: 70px;
+                outline: none;
+                margin-right: 10px;
+                padding: 2px 8px;
+                height: 30px;
+            }
+        }
+    }
+}
+
+.pop-slide-mask{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    overflow: hidden;
+}
+.pop-slide-box{
+    height: 100%;
+    width: 350px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    position: absolute;
+    z-index: 99990;
+    overflow: hidden;
+    box-shadow: 0 0 8px -3px #000;
+    top: -1px;
+}
+
+@media screen and (max-width:470px) {
+    .pop-mask{
+        .pop-dialog{
+            width: calc(~"100% - 16px");
+            margin: 0 8px;
+            animation: mobileDialogMoveInto 0.3s forwards;
+        }
+    }
+}
+
+@keyframes dialogMoveInto {
+    100%{
+        top: 25px;
+    }
+}
+@keyframes mobileDialogMoveInto {
+    100%{
+        top: 10%;
+    }
+}
+@keyframes maskMoveInto {
+    100%{
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+}
