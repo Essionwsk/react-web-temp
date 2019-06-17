@@ -13,7 +13,7 @@ let NODE_MODULE = path.resolve(ROOT_PATH, 'node_modules'); //__dirname 中的 no
 module.exports = {
     entry: {
         index:APP_PATH+'/route/index.js',
-        vendor:["react","react-dom","react-router-dom","jquery","antd"]
+        vendor:["react","react-dom","react-router-dom","antd"]
     },
     output: {
         path: __dirname+'/public',//编译到指定根目录
