@@ -315,4 +315,45 @@ module.exports = {
             })
         })
     },
+    /***
+     * 获取url参数
+     */
+    getUrlParam:function(){
+        let a = window.location.href.split("?")[1];
+        let b = {};
+        if(typeof a !== "undefined" && a !== ""){
+            a.split("&").map((n)=>{
+                let c = n.split("=");
+                b[c[0]] = c[1];
+            })
+        }
+        return b
+    },
+    /***
+     *  base64  to blob二进制
+     * @param dataURI
+     * @returns {Blob}
+     */
+    dataURItoBlob:function(dataURI) {
+        let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]; // mime类型
+        let byteString = atob(dataURI.split(',')[1]); //base64 解码
+        let arrayBuffer = new ArrayBuffer(byteString.length); //创建缓冲数组
+        let intArray = new Uint8Array(arrayBuffer); //创建视图
+        for (let i = 0; i < byteString.length; i++) {
+            intArray[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([intArray], {type: mimeString});
+    },
+    /***
+     * blob二进制 to base64
+     * @param blob
+     * @param callback
+     */
+    blobToDataURI:function(blob, callback) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            callback(e.target.result);
+        };
+        reader.readAsDataURL(blob);
+    }
 };
