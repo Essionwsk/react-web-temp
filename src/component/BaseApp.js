@@ -159,97 +159,7 @@ class Header extends BaseApp {
     }
 }
 
-/***
- * 管理系统菜单与内容
- */
-@inject('store') @observer
-class Content extends BaseApp {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            collapsed: false,
-        };
-    }
-
-    _toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    };
-
-    _handleClick = (e) => {
-        console.log('click ', e);
-    };
-
-    componentDidMount = () => {
-
-    };
-
-    render() {
-        const {store: {userStore}} = this.props;
-        const SubMenu = Menu.SubMenu;
-        const {Sider, Content} = Layout;
-        return (
-            <div className="app-body">
-                <div className="menu-box">
-                    <Icon
-                        className="trigger"
-                        type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                        onClick={this._toggle}
-                    />
-
-                    <Layout>
-                        <Sider
-                            trigger={null}
-                            collapsible
-                            collapsed={this.state.collapsed}
-                        >
-                            <div className="logo"/>
-                            <Menu
-                                onClick={this._handleClick}
-                                style={{width: 250}}
-                                defaultSelectedKeys={['10']}
-                                defaultOpenKeys={['sub1']}
-                                mode="inline"
-                            >
-                                <SubMenu key="sub1" title={<span><Icon type="setting"/><span>一组</span></span>}>
-                                    <Menu.Item key="1">页1</Menu.Item>
-                                    <Menu.Item key="10">页2</Menu.Item>
-                                </SubMenu>
-                            </Menu>
-                        </Sider>
-                        <Layout>
-
-                            <Content style={{
-                                margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
-                            }}
-                            >
-                                Content
-                            </Content>
-                        </Layout>
-                    </Layout>
-                </div>
-
-            </div>
-        )
-    }
-}
-
-
-class CakeLoading extends BaseApp {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="cake-loading" style={this.props.style ? this.props.style : {}}>
-                <Spin {...this.props}/>
-            </div>
-        )
-    }
-}
 
 /***
  * 表单模板的预设结构
@@ -335,5 +245,5 @@ const exFunc = {
 };
 
 
-export {BaseApp, MainBody, FromGroup, CakeLoading, exFunc}
+export {BaseApp, MainBody, FromGroup, exFunc}
 export default BaseApp;
