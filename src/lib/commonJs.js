@@ -1,6 +1,6 @@
 import {toJS} from 'mobx';
 
-module.exports = {
+export default {
     /***
      * base64 加密解密
      */
