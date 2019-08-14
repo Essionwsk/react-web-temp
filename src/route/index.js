@@ -12,7 +12,7 @@ import { __components__ } from "./config";
 
 import {BrowserRouter, HashRouter, Switch, Route, Redirect} from 'react-router-dom'
 
-import {LocaleProvider} from 'antd'
+import {ConfigProvider} from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 import '../style/base.less';
@@ -24,7 +24,7 @@ ReactDOM.render(
         <Provider store={stores}>
             <Switch>
                 <Route path="/mgmt" render={({history, location, match}) => (
-                    <LocaleProvider locale={zhCN}>
+                    <ConfigProvider locale={zhCN}>
                         <MainBody history={history} location={location} match={location}>
                             {
                                 __components__.map((n, i) => {
@@ -32,7 +32,7 @@ ReactDOM.render(
                                 })
                             }
                         </MainBody>
-                    </LocaleProvider>
+                    </ConfigProvider>
                 )}/>
                 <Redirect to="/mgmt"/>
             </Switch>

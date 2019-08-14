@@ -25,7 +25,9 @@ class BaseApp extends Component {
                     }
                 })
             })
-        }
+        };
+
+
 
     }
 

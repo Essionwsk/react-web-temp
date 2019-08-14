@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactDOM, {render} from 'react-dom'
-import {Icon} from 'antd';
+import {Icon, Button} from 'antd';
 
 let __popPool__ = [];
 
@@ -154,16 +154,20 @@ class Pop extends Component {
                         ""
                 }
                 {
-                    isNotText?
-                        <div style={{backgroundColor:style.backgroundColor}} id="popBody" className="pop-dialog-body" ref={this.$$popBody} >{this.state.content}</div>:
-                        <div style={{backgroundColor:style.backgroundColor}} id="popBody" className="pop-dialog-body" ref={this.$$popBody} dangerouslySetInnerHTML={{__html:this.state.content}} />
+                    isNotText ?
+                        <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
+                             ref={this.$$popBody}>{this.state.content}</div> :
+                        <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
+                             ref={this.$$popBody} dangerouslySetInnerHTML={{__html: this.state.content}}/>
                 }
-                {this.state.showFooter ? (<div className="pop-dialog-foot">
-                    {this.state.showCancel ? <button className={"_cancel btn " + cancelStyle}
-                                                     onClick={this._popCancel}>{this.state.cancelText}</button> : ""}
-                    {this.state.showOk ?
-                        <button className={"_ok btn " + okStyle} onClick={this._popOk}>{this.state.okText}</button> : ""}
-                </div>) : ''}
+                {
+                    this.state.showFooter ? (
+                        <div className="pop-dialog-foot">
+                            {this.state.showCancel ? <Button type="default" className={"_cancel btn " + cancelStyle} onClick={this._popCancel}>{this.state.cancelText}</Button> : ""}
+                            {this.state.showOk ? <Button type="primary" className={"_ok btn " + okStyle} onClick={this._popOk}>{this.state.okText}</Button> : ""}
+                        </div>
+                    ) : ''
+                }
             </div>
         )
     }

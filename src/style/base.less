@@ -1,20 +1,8 @@
 
 // 主框架配色 （包括菜单底色与导航）
 @themeColor:#1C294B;
-// 菜单分隔线配色
-@menuLine:#444;
-// 菜单文字 鼠标移入色
-@menuHover:#0F82ED;
-// 菜单选中颜色
-@menuActive:#0F82ED;
-
-
-/***
- 其他配色
- */
+// 主蓝色
 @themeBlue:#0F82ED;
-@themeBorder:#EEE;
-@contentBgColor:#F7F7F6;
 
 /*** 页面基础布局与基础元素样式默认设置 ↓ *********************************************************************************/
 html *{
@@ -90,71 +78,17 @@ input::-webkit-input-placeholder{  color: @placeholderColor;opacity:1;  }
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .no-select {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
-.btn{
-	.no-select;
-	min-width: 80px;
-	text-align: center;
-	border-radius: 3px ;
-	cursor: pointer;
-	display: inline-block;
-	padding: 4px 12px;
-	border: 0;
-}
-.btn[disabled]{
-	cursor: not-allowed;
-	background-color: #EEE;
-	color: #AAA;
-	&:hover{
-		background-color: #EEE;
-	}
-}
-.btn-blue{
-	background-color: #2ab1ff;
-	color: #FFF;
-	&:hover{
-		background-color: #208ECE;
-	}
-	&:active{
-		box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.125)
-	}
-}
-.btn-white{
-	background-color: #FFF;
-	color: #AAA;
-	border: 1px solid #CCC;
-}
-.btn-opacity{
-	background-color: #FFF;
-	color: #777;
-	border: 1px solid #CCC;
-	&:hover{
-		background-color: rgba(181, 181, 181, 0.18);
-	}
-	&:active{
-		box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.125)
-	}
-}
-.btn-disabled{
-	background-color: #e4e4e4;
-	color: #9e9e9e;
-	cursor: not-allowed;
-	pointer-events: none;
-}
-.btn-noborder{
-	border:0 solid #fff;
-	background-color:#fff;
-	padding:0 10px;
-	cursor: pointer;
-}
 
 .cos-printer{
 	cursor: pointer;
 }
+
 .cos-a{
 	&.handle{
 		i{
@@ -178,42 +112,28 @@ input::-webkit-input-placeholder{  color: @placeholderColor;opacity:1;  }
 	}
 }
 
+.cake-from-group{
+    display: inline-block;
+    margin: 4px 0;
+    .cake-from-content{
+        display: flex;
+        align-items: center;
+        position: relative;
+        .cake-from-label{
+            min-width: 120px;
+            margin-right: 5px;
+            i.fa.fa-question-circle-o{
+                color: @themeBlue;
+                cursor: pointer;
+                font-size: 16px;
+            }
+        }
+    }
+}
+
 /*** 通用模块或组件css设置 ↑ **********************************************************************************************/
 
 
 
 
 
-
-
-
-.middle-controller {
-	position: relative;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-}
-
-
-
-
-
-.cake-from-group{
-	display: inline-block;
-	margin: 4px 0;
-	.cake-from-content{
-		display: flex;
-		align-items: center;
-		position: relative;
-		.cake-from-label{
-			min-width: 120px;
-			margin-right: 5px;
-			i.fa.fa-question-circle-o{
-				color: @themeBlue;
-				cursor: pointer;
-				font-size: 16px;
-			}
-		}
-	}
-}
