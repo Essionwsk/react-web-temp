@@ -1,3 +1,25 @@
+/***
+ * 现在弹窗有两种召唤方式，第一种为原始的方法式召唤 例如：
+ * import Pop from "Pop";
+ * Pop.dialog({...})
+ * 此方法应传统的为传统的js弹窗调用法，优点在于关闭即销毁，不召唤不会增加dom压力，
+ * 其缺点在于react的使用中，pop弹窗为独立dom 独立于召唤它的组件，可能会无法感知召唤
+ * 它的组件的状态变化如state等，适合场景为数据的单向流动。
+ *
+ * 第二种为react类型的召唤 例如
+ * import Pop from "Pop";
+ *  ...
+ *  render:()=>{
+ *      return (
+ *          <Pop.PopModal >
+ *               ASD
+ *          </Pop.PopModal>
+ *      )
+ *  }
+ *  其优点在于可以感知父组件的state变化，更适合与父组件数据频繁交互的场景
+ *
+ */
+
 import React, {Component} from 'react'
 import ReactDOM, {render} from 'react-dom'
 import {Icon, Button} from 'antd';
@@ -14,7 +36,8 @@ class Pop extends Component {
 
         this.state = {
             key:null,//此弹窗的标识，可以与其他弹窗的key重复，目前主要用于卸载其他组件生成的pop，相同key的弹窗会同时被删除。
-            hide: false,
+            show:false,
+            type:"htmlRender",
             showTitle: true,
             title: "弹出框",
             width: "500px",
@@ -39,19 +62,35 @@ class Pop extends Component {
 
         Object.assign(this.state, this.props.para);
 
+        if(this.state.type === "htmlRender"){
+            // this.state.key = Math.ceil(Math.random() * 10000).toString();
+            this.state.content = this.props.children
+        }
+
+
+
+        console.log(this.state);
+
         this.id = this.props.id;
         this.key = this.state.key;
 
         this.remove = () => {
             let $container = this.$$popDialog.current.parentNode;
             let $body = $container.parentNode;
-            ReactDOM.unmountComponentAtNode($container);
-            $body.removeChild($container);
-            __popPool__.map((n,i)=>{
-                if(n.id === this.id){
-                    __popPool__.splice(i,1);
-                }
-            })
+
+            if(this.state.type === "htmlRender"){
+                this.setState({
+                    show:false
+                })
+            }else{
+                ReactDOM.unmountComponentAtNode($container);
+                $body.removeChild($container);
+                __popPool__.map((n,i)=>{
+                    if(n.id === this.id){
+                        __popPool__.splice(i,1);
+                    }
+                })
+            }
         };
 
     }
@@ -106,8 +145,12 @@ class Pop extends Component {
 
     };
 
-    componentWillUnmount() {
-
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.show !== this.state.show){
+            this.state.show = nextProps.show
+        }
+        // Object.assign(this.state,nextProps);
+        // console.log("AA");
     }
 
     componentDidMount() {
@@ -139,35 +182,41 @@ class Pop extends Component {
 
         let isNotText = Object.prototype.toString.call(this.state.content) !== "[object string]";
 
+        let hide = {
+            display:"none"
+        };
+
         return (
-            <div className="pop-dialog" style={style} ref={this.$$popDialog}>
-                {
-                    this.state.showTitle ?
-                        <div className="pop-dialog-head">
-                            {this.state.title}
-                            <div style={{cursor: "pointer"}} onClick={this.remove}>
-                                {
-                                    this.state.closeIcon === "" ? <Icon type="close-circle-o"/> : this.state.closeIcon
-                                }
+            <div className="pop-mask" style={this.state.show?{}:hide} ref={this.$$popDialog}>
+                <div className="pop-dialog" style={style} >
+                    {
+                        this.state.showTitle ?
+                            <div className="pop-dialog-head">
+                                {this.state.title}
+                                <div style={{cursor: "pointer"}} onClick={this.remove}>
+                                    {
+                                        this.state.closeIcon === "" ? <Icon type="close-circle-o"/> : this.state.closeIcon
+                                    }
+                                </div>
+                            </div> :
+                            ""
+                    }
+                    {
+                        isNotText ?
+                            <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
+                                 ref={this.$$popBody}>{this.state.content}</div> :
+                            <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
+                                 ref={this.$$popBody} dangerouslySetInnerHTML={{__html: this.state.content}}/>
+                    }
+                    {
+                        this.state.showFooter ? (
+                            <div className="pop-dialog-foot">
+                                {this.state.showCancel ? <Button type="default" className={"_cancel btn " + cancelStyle} onClick={this._popCancel}>{this.state.cancelText}</Button> : ""}
+                                {this.state.showOk ? <Button type="primary" className={"_ok btn " + okStyle} onClick={this._popOk}>{this.state.okText}</Button> : ""}
                             </div>
-                        </div> :
-                        ""
-                }
-                {
-                    isNotText ?
-                        <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
-                             ref={this.$$popBody}>{this.state.content}</div> :
-                        <div style={{backgroundColor: style.backgroundColor}} id="popBody" className="pop-dialog-body"
-                             ref={this.$$popBody} dangerouslySetInnerHTML={{__html: this.state.content}}/>
-                }
-                {
-                    this.state.showFooter ? (
-                        <div className="pop-dialog-foot">
-                            {this.state.showCancel ? <Button type="default" className={"_cancel btn " + cancelStyle} onClick={this._popCancel}>{this.state.cancelText}</Button> : ""}
-                            {this.state.showOk ? <Button type="primary" className={"_ok btn " + okStyle} onClick={this._popOk}>{this.state.okText}</Button> : ""}
-                        </div>
-                    ) : ''
-                }
+                        ) : ''
+                    }
+                </div>
             </div>
         )
     }
@@ -177,7 +226,7 @@ let createMask = ()=>{
     let id = Math.ceil(Math.random() * 10000).toString();
     let $body = document.getElementsByTagName("body")[0];
     let popMask = document.createElement("div");
-    popMask.className = "pop-mask";
+    popMask.className = "pop-mask-box";
     popMask.setAttribute("data-id",id);
     $body.appendChild(popMask);
     return {
@@ -186,12 +235,19 @@ let createMask = ()=>{
     }
 };
 
+
 export default {
+    PopModal:Pop,
+
     dialog:(para, ok, cancel)=>{
         let maskObj = createMask();
+
         let react = render(
             <Pop
-                para={para}
+                para={Object.assign({
+                    show:true,
+                    type:"functionRender",
+                },para)}
                 ok={ok}
                 cancel={cancel}
                 id={maskObj.id}

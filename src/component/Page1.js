@@ -6,10 +6,18 @@ import {Button} from "antd"
 class Page1 extends BaseApp {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showPop:false
+        }
+
     }
 
     _showPop = ()=>{
-        Pop.dialog({})
+        this.setState({showPop:true})
+
+        // Pop.dialog({})
+
     };
 
     render() {
@@ -17,6 +25,11 @@ class Page1 extends BaseApp {
             <div>
                 页面1
                 <Button type="primary" onClick={this._showPop}>弹出框</Button>
+
+                <Pop.PopModal show={this.state.showPop}>
+                    ASD
+                </Pop.PopModal>
+
             </div>
         )
     }
