@@ -17,19 +17,19 @@
  *      )
  *  }
  *  其优点在于可以感知父组件的state变化，更适合与父组件数据频繁交互的场景
+ *  ！确认与取消按钮需要自己上事件来关闭或打开弹窗
  *
  */
 
 import React, {Component} from 'react'
 import ReactDOM, {render} from 'react-dom'
-import {Icon, Button} from 'antd';
+import {Icon, Button, Spin} from 'antd';
 
 let __popPool__ = [];
 
 class Pop extends Component {
     constructor(props) {
         super(props);
-        let _this = this;
 
         this.$$popDialog = React.createRef();
         this.$$popBody = React.createRef();
@@ -55,21 +55,16 @@ class Pop extends Component {
             content: "自定义 component",
             closeIcon: "",
             backgroundColor:"",
+            loading:false,
+            openReInit:true,
             onLoad: () => {
 
             }
         };
 
-        Object.assign(this.state, this.props.para);
-
         if(this.state.type === "htmlRender"){
-            // this.state.key = Math.ceil(Math.random() * 10000).toString();
             this.state.content = this.props.children
         }
-
-
-
-        console.log(this.state);
 
         this.id = this.props.id;
         this.key = this.state.key;
@@ -79,9 +74,7 @@ class Pop extends Component {
             let $body = $container.parentNode;
 
             if(this.state.type === "htmlRender"){
-                this.setState({
-                    show:false
-                })
+
             }else{
                 ReactDOM.unmountComponentAtNode($container);
                 $body.removeChild($container);
@@ -93,6 +86,7 @@ class Pop extends Component {
             }
         };
 
+        this.originalOption = Object.assign(this.state, this.props.para);
     }
 
     /***
@@ -141,16 +135,12 @@ class Pop extends Component {
         return false
     };
 
-    _bindKeydown = ()=>{
-
-    };
-
     componentWillReceiveProps(nextProps, nextContext) {
-        if(nextProps.show !== this.state.show){
-            this.state.show = nextProps.show
+        Object.assign(this.state,nextProps);
+        this.state.content = nextProps.children;
+        if(nextProps.show === true && this.state.openReInit){
+            this.state = this.originalOption;
         }
-        // Object.assign(this.state,nextProps);
-        // console.log("AA");
     }
 
     componentDidMount() {
@@ -190,10 +180,13 @@ class Pop extends Component {
             <div className="pop-mask" style={this.state.show?{}:hide} ref={this.$$popDialog}>
                 <div className="pop-dialog" style={style} >
                     {
+                        this.state.loading?<Spin className="pop-loading" />:""
+                    }
+                    {
                         this.state.showTitle ?
                             <div className="pop-dialog-head">
                                 {this.state.title}
-                                <div style={{cursor: "pointer"}} onClick={this.remove}>
+                                <div style={{cursor: "pointer"}} onClick={this._popCancel}>
                                     {
                                         this.state.closeIcon === "" ? <Icon type="close-circle-o"/> : this.state.closeIcon
                                     }
@@ -244,10 +237,7 @@ export default {
 
         let react = render(
             <Pop
-                para={Object.assign({
-                    show:true,
-                    type:"functionRender",
-                },para)}
+                para={Object.assign({show:true, type:"functionRender",},para)}
                 ok={ok}
                 cancel={cancel}
                 id={maskObj.id}
@@ -268,7 +258,7 @@ export default {
             showCancel: false,
             content: <div className="alert-msg">{msg}</div>,
         };
-        let react = render(<Pop para={para} ok={callback} id={maskObj.id} />,maskObj.popMask);
+        let react = render(<Pop para={Object.assign({show:true, type:"functionRender",},para)} ok={callback} id={maskObj.id} />,maskObj.popMask);
         return {
             remove: react.remove
         }
@@ -282,7 +272,7 @@ export default {
             okText: "确定",
             content: <div className="alert-msg">{msg}</div>,
         };
-        let react = render(<Pop para={para} ok={ok} cancel={cancel} id={maskObj.id} />,maskObj.popMask);
+        let react = render(<Pop para={Object.assign({show:true, type:"functionRender",},para)} ok={ok} cancel={cancel} id={maskObj.id} />,maskObj.popMask);
         return {
             remove: react.remove
         }
@@ -297,7 +287,7 @@ export default {
             showCancel:false,
             content:<div className="alert-msg">{msg}</div> ,
         };
-        let react = render(<Pop para={para} ok={callback} id={maskObj.id} />,maskObj.popMask);
+        let react = render(<Pop para={Object.assign({show:true, type:"functionRender",},para)} ok={callback} id={maskObj.id} />,maskObj.popMask);
         return {
             remove:react.remove,
             id:maskObj.id
@@ -316,7 +306,7 @@ export default {
                 <p>{msg}</p>
             </div>
         };
-        let react = render(<Pop para={para} ok={callback} id={maskObj.id} />,maskObj.popMask);
+        let react = render(<Pop para={Object.assign({show:true, type:"functionRender",},para)} ok={callback} id={maskObj.id} />,maskObj.popMask);
         return {
             remove:react.remove
         }
