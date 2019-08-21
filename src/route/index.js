@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'mobx-react'
 import Cookies from 'js-cookie'
-import Util from '../lib/commonJs'
-import {config} from '../../config'
 
 import {MainBody} from '../component/BaseApp';
 

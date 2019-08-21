@@ -1,7 +1,7 @@
 import React from "react";
 import BaseApp from "./BaseApp";
-import Pop from "./Pop";
 import {Button, Input} from "antd"
+import { Pop } from "tjfoc-react-component"
 
 class Page1 extends BaseApp {
     constructor(props) {

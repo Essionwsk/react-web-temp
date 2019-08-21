@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
-import Util from "../lib/commonJs";
-import Pop from "./Pop";
+import { Pop }from "tjfoc-react-component";
 import urlStore from '../urlStore';
 import Cookie from 'js-cookie';
 import {message, Badge, Popover, Input, Spin, Menu, Icon, Layout} from 'antd';
@@ -161,39 +160,6 @@ class Header extends BaseApp {
     }
 }
 
-
-
-/***
- * 表单模板的预设结构
- */
-class FromGroup extends BaseApp {
-    constructor(props) {
-        super(props);
-    }
-
-    _onRemark = (remark) => {
-    };
-
-    render() {
-        return (
-            <div className="cake-from-group" style={this.props.style}>
-                <div className="cake-from-content">
-                    <div className="cake-from-label" style={this.props.labelStyle}>
-                        {this.props.label}
-                        {this.props.must ? <span style={{color: "red"}}>*</span> : ''}
-                        {this.props.remark ? <i onClick={this._onRemark.bind(this, this.props.remark)}
-                                                className="fa fa-question-circle-o"/> : ''}
-                    </div>
-                    <div className="cake-from-content" style={this.props.contentStyle}>
-                        {this.props.children}
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-
-
 const exFunc = {
     /***
      *  分页数据对接，enPage
@@ -247,5 +213,5 @@ const exFunc = {
 };
 
 
-export {BaseApp, MainBody, FromGroup, exFunc}
+export {BaseApp, MainBody, exFunc}
 export default BaseApp;

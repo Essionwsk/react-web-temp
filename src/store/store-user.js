@@ -1,6 +1,5 @@
 import { observable , action } from 'mobx';
 import Cookie from 'js-cookie';
-import Util from '../lib/commonJs';
 
 let store = null;
 
