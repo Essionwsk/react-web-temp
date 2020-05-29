@@ -8,6 +8,7 @@
         "dev": "webpack-dev-server --config webpack.config.dev.js  --progress --hot --history-api-fallback"
     },
     "dependencies": {
+        "@babel/plugin-transform-runtime": "^7.10.1",
         "antd": "^3.21.4",
         "axios": "^0.18.0",
         "echarts": "^4.1.0",

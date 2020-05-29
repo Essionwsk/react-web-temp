@@ -23,6 +23,13 @@ module.exports = {
         publicPath: config.publicPath,
         chunkFilename: 'js/[name].js'
     },
+    resolve: {
+        alias: {
+            '$root': __dirname,
+            '$src': path.resolve(__dirname, 'src'),
+            '$component': path.resolve(__dirname, 'src/component'),
+        }
+    },
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name].css',
@@ -70,6 +77,7 @@ module.exports = {
                     plugins: [
                         ['@babel/plugin-proposal-decorators', { legacy: true }],
                         ['@babel/plugin-proposal-class-properties', { loose: true }],
+                        ['@babel/plugin-transform-runtime'],
                         ['import', { libraryName: 'antd', style: "css" }]
                     ]
                 }
