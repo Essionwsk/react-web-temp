@@ -6,7 +6,7 @@ const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
 const PostCssPresetEnv      = require('postcss-preset-env');
 const CssNaNo               = require('cssnano');
 
-const devMode = process.env.NODE_ENV !== 'production';
+// const devMode = process.env.NODE_ENV !== 'production';
 let ROOT_PATH = path.resolve(__dirname);
 let APP_PATH = path.resolve(ROOT_PATH, 'src');
 let NODE_MODULE = path.resolve(ROOT_PATH, 'node_modules'); //__dirname 中的 node_modules 目录
@@ -17,8 +17,7 @@ module.exports = {
         vendor: ["react", "react-dom", "react-router-dom", "antd"]
     },
     output: {
-        path: `${__dirname}/${config.showShaBox ? 'public-sandbox' : 'public'}`,
-        //path: __dirname+'/public',//编译到指定根目录
+        path: __dirname+'/public',//编译到指定根目录
         filename: 'js/[name].js',//编译后的js存放地址与名称[chunkhash:4]
         publicPath: config.publicPath,
         chunkFilename: 'js/[name].js'
